@@ -1,72 +1,65 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="de">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>Mathe-Pingpong</title>
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
-html,body{margin:0;width:100%;height:100%;overflow:hidden;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:linear-gradient(135deg,#7dd3fc,#a5f3fc,#fef3c7);color:#0f172a}
-button{font-family:inherit;cursor:pointer;touch-action:manipulation}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;font-family:system-ui,Arial,sans-serif;background:linear-gradient(135deg,#7dd3fc,#a5f3fc,#fef3c7);color:#0f172a}
+button{font-family:inherit;touch-action:manipulation;cursor:pointer}
 .hidden{display:none!important}
-
-/* START */
-.start-screen{width:100vw;height:100vh;padding:1.5vh 2vw;display:flex;align-items:center;justify-content:center}
-.start-card{width:min(100%,1280px);height:94vh;border:8px solid white;border-radius:48px;background:rgba(255,255,255,.92);box-shadow:0 24px 70px rgba(15,23,42,.24);padding:clamp(12px,2vh,22px);display:flex;flex-direction:column;justify-content:space-between;text-align:center;overflow:hidden}
-h1{margin:0;font-size:clamp(34px,5.5vw,68px);color:#ec4899;font-weight:1000;line-height:1;text-shadow:0 4px 0 rgba(255,255,255,.9)}
+.start,.end{width:100vw;height:100vh;padding:1.5vh 2vw;display:flex;align-items:center;justify-content:center}
+.card{width:min(100%,1280px);height:94vh;border:8px solid #fff;border-radius:48px;background:rgba(255,255,255,.93);box-shadow:0 24px 70px #0003;padding:clamp(12px,2vh,22px);display:flex;flex-direction:column;justify-content:space-between;text-align:center;overflow:hidden}
+.end .card{width:min(90vw,820px);height:auto;padding:42px}
+h1{margin:0;font-size:clamp(34px,5.5vw,68px);color:#ec4899;font-weight:1000;line-height:1;text-shadow:0 4px 0 #fff}
 .subtitle{margin:8px 0 0;color:#075985;font-size:clamp(17px,2.4vw,27px);font-weight:900}
 .panel{border-radius:32px;padding:clamp(10px,1.5vh,16px);background:#fce7f3}
 .panel.yellow{background:#fef9c3}
 .panel h2{margin:0 0 8px;font-size:clamp(22px,2.7vw,34px);font-weight:1000;color:#ec4899}
 .panel.yellow h2{color:#f97316}
-.table-buttons{display:grid;grid-template-columns:repeat(9,1fr);gap:8px}
-.time-buttons{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-.select-btn,.mode-btn{border:4px solid white;border-radius:24px;background:white;color:#0369a1;padding:clamp(8px,1.5vh,16px);font-size:clamp(22px,2.8vw,34px);font-weight:1000;box-shadow:0 7px 0 rgba(15,23,42,.12)}
-.select-btn.active{background:#f472b6;border-color:#ec4899;color:white}
-.mode-btn.active{background:#fdba74;border-color:#f97316;color:white}
-.info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.info-box{border-radius:28px;padding:clamp(10px,1.4vh,15px);font-size:clamp(16px,2vw,22px);font-weight:1000;box-shadow:0 8px 20px rgba(15,23,42,.12)}
-.info-box:nth-child(1){background:#fde68a}.info-box:nth-child(2){background:#bbf7d0}.info-box:nth-child(3){background:#bfdbfe}
-.main-btn{width:100%;height:clamp(58px,10vh,84px);border:0;border-radius:32px;background:#ec4899;color:white;font-size:clamp(28px,4vw,46px);font-weight:1000;box-shadow:0 10px 0 #be185d}
-.main-btn:active,.select-btn:active,.mode-btn:active,.answer-btn:active{transform:translateY(3px)}
+.tableBtns{display:grid;grid-template-columns:repeat(9,1fr);gap:8px}
+.timeBtns{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.sel,.mode{border:4px solid #fff;border-radius:24px;background:#fff;color:#0369a1;padding:clamp(8px,1.3vh,14px);font-size:clamp(17px,2.2vw,28px);font-weight:1000;box-shadow:0 7px 0 #0002}
+.sel.active{background:#f472b6;border-color:#ec4899;color:#fff}
+.mode.active{background:#fdba74;border-color:#f97316;color:#fff}
+.info{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.info div{border-radius:28px;padding:clamp(10px,1.4vh,15px);font-size:clamp(16px,2vw,22px);font-weight:1000;box-shadow:0 8px 20px #0002}
+.info div:nth-child(1){background:#fde68a}.info div:nth-child(2){background:#bbf7d0}.info div:nth-child(3){background:#bfdbfe}
+.main{width:100%;height:clamp(58px,10vh,84px);border:0;border-radius:32px;background:#ec4899;color:#fff;font-size:clamp(28px,4vw,46px);font-weight:1000;box-shadow:0 10px 0 #be185d}
+.main:active,.sel:active,.mode:active,.ans:active{transform:translateY(3px)}
 
-/* GAME */
-.game-screen{width:100vw;height:100vh;padding:4vh 2vw;display:flex;align-items:center;justify-content:center}
-.table{position:relative;width:min(1500px,96vw);height:92vh;display:flex;align-items:center;justify-content:space-between;overflow:hidden;border:12px solid white;border-radius:48px;background:linear-gradient(90deg,#38bdf8,#34d399,#22d3ee);box-shadow:0 25px 70px rgba(15,23,42,.3)}
-.player-side{position:relative;height:100%;width:38vw;min-width:320px;display:flex;flex-direction:column;align-items:center;justify-content:center;transform-origin:center}
-.player-side.left{transform:rotate(90deg)}
-.player-side.right{transform:rotate(-90deg)}
-.score{position:absolute;top:16px;left:50%;transform:translateX(-50%);min-width:76px;border:4px solid white;border-radius:999px;background:#f472b6;color:white;padding:10px 24px;font-size:clamp(30px,4vw,42px);font-weight:1000;box-shadow:0 8px 24px rgba(15,23,42,.18);text-align:center}
-.task-card{width:min(92%,570px);min-height:330px;border:6px solid white;border-radius:40px;padding:22px;text-align:center;background:rgba(255,255,255,.75);box-shadow:0 20px 60px rgba(15,23,42,.2)}
-.task-card.active{background:#e0f2fe;border-color:#fde047}
-.label{font-size:clamp(16px,1.8vw,21px);font-weight:1000;letter-spacing:.04em;text-transform:uppercase;color:#ec4899}
+.game{width:100vw;height:100vh;padding:4vh 2vw;display:flex;align-items:center;justify-content:center}
+.plate{position:relative;width:min(1500px,96vw);height:92vh;display:flex;align-items:center;justify-content:space-between;overflow:hidden;border:12px solid #fff;border-radius:48px;background:linear-gradient(90deg,#38bdf8,#34d399,#22d3ee);box-shadow:0 25px 70px #0004}
+.side{position:relative;height:100%;width:38vw;min-width:320px;display:flex;flex-direction:column;align-items:center;justify-content:center;transform-origin:center}
+.left{transform:rotate(90deg)}
+.right{transform:rotate(-90deg)}
+.score{position:absolute;top:16px;left:50%;transform:translateX(-50%);min-width:76px;border:4px solid #fff;border-radius:999px;background:#f472b6;color:#fff;padding:10px 24px;font-size:clamp(30px,4vw,42px);font-weight:1000;box-shadow:0 8px 24px #0003;text-align:center}
+.taskCard{width:min(92%,570px);min-height:330px;border:6px solid #fff;border-radius:40px;padding:22px;text-align:center;background:rgba(255,255,255,.75);box-shadow:0 20px 60px #0003}
+.taskCard.active{background:#e0f2fe;border-color:#fde047}
+.label{font-size:clamp(16px,1.8vw,21px);font-weight:1000;text-transform:uppercase;color:#ec4899}
 .task{margin:18px 0;font-size:clamp(58px,8vw,86px);line-height:1;color:#075985;font-weight:1000}
 .answers{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-.answer-btn{height:96px;border:4px solid white;border-radius:32px;background:linear-gradient(#fde047,#fdba74);color:#075985;font-size:clamp(36px,4.8vw,52px);font-weight:1000;box-shadow:0 8px 0 rgba(15,23,42,.16)}
-.waiting{display:flex;flex-direction:column;align-items:center;justify-content:center;height:230px;gap:14px;font-size:72px}
-.waiting-text{font-size:clamp(27px,3.2vw,38px);font-weight:1000;color:#7dd3fc}
-.feedback{margin-top:18px;height:46px;font-size:clamp(22px,2.8vw,30px);font-weight:1000;color:white;text-shadow:0 3px 8px rgba(15,23,42,.3);text-align:center}
-.net{position:relative;height:100%;width:20vw;min-width:220px;display:flex;align-items:center;justify-content:center;border-left:10px dashed rgba(255,255,255,.7);border-right:10px dashed rgba(255,255,255,.7);background:rgba(16,185,129,.28)}
-.net-line{position:absolute;left:50%;top:0;width:8px;height:100%;transform:translateX(-50%);background:rgba(255,255,255,.7)}
-.timer{position:absolute;top:26px;z-index:3;border:4px solid white;border-radius:999px;background:#f87171;color:white;padding:12px 26px;font-size:clamp(34px,4vw,46px);font-weight:1000;box-shadow:0 8px 24px rgba(15,23,42,.2)}
-.net-content{position:relative;z-index:2;text-align:center;display:flex;flex-direction:column;align-items:center;gap:22px}
-.bounce{font-size:clamp(76px,9vw,106px);animation:bounce .9s infinite ease-in-out}
-@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
-.ping-box{border-radius:28px;background:rgba(255,255,255,.85);padding:16px 26px;font-size:clamp(22px,2.5vw,30px);color:#059669;font-weight:1000;box-shadow:0 8px 24px rgba(15,23,42,.16)}
-
-/* END */
-.end-screen{width:100vw;height:100vh;padding:24px;display:flex;align-items:center;justify-content:center}
-.end-card{width:min(90vw,780px);border:8px solid white;border-radius:48px;background:rgba(255,255,255,.92);padding:42px;text-align:center;box-shadow:0 24px 70px rgba(15,23,42,.24)}
-.end-card h2{margin:0;font-size:clamp(42px,6vw,70px);color:#ec4899;font-weight:1000}
-.end-score{margin:18px 0;font-size:clamp(28px,4vw,38px);color:#0369a1;font-weight:1000}
-
-@media(max-height:720px){.start-card{padding:12px}.panel{padding:10px}.info-box{padding:9px}.main-btn{height:58px}.task-card{min-height:290px}.answer-btn{height:82px}}
-@media(max-width:900px){.table-buttons{grid-template-columns:repeat(5,1fr)}.info-grid{grid-template-columns:1fr}}
+.ans{height:96px;border:4px solid #fff;border-radius:32px;background:linear-gradient(#fde047,#fdba74);color:#075985;font-size:clamp(36px,4.8vw,52px);font-weight:1000;box-shadow:0 8px 0 #0002}
+.wait{display:flex;flex-direction:column;align-items:center;justify-content:center;height:230px;gap:14px;font-size:72px}
+.wait span{font-size:clamp(27px,3.2vw,38px);font-weight:1000;color:#7dd3fc}
+.fb{margin-top:18px;height:46px;font-size:clamp(22px,2.8vw,30px);font-weight:1000;color:#fff;text-shadow:0 3px 8px #0005;text-align:center}
+.net{position:relative;height:100%;width:20vw;min-width:220px;display:flex;align-items:center;justify-content:center;border-left:10px dashed #ffffffb3;border-right:10px dashed #ffffffb3;background:rgba(16,185,129,.28)}
+.line{position:absolute;left:50%;top:0;width:8px;height:100%;transform:translateX(-50%);background:#ffffffb3}
+.timer{position:absolute;top:26px;z-index:3;border:4px solid #fff;border-radius:999px;background:#f87171;color:#fff;padding:12px 26px;font-size:clamp(34px,4vw,46px);font-weight:1000}
+.netbox{position:relative;z-index:2;text-align:center;display:flex;flex-direction:column;align-items:center;gap:22px}
+.ball{font-size:clamp(76px,9vw,106px);animation:b .9s infinite ease-in-out}
+@keyframes b{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
+.ping{border-radius:28px;background:rgba(255,255,255,.86);padding:16px 26px;font-size:clamp(22px,2.5vw,30px);color:#059669;font-weight:1000;box-shadow:0 8px 24px #0002}
+.phase{position:absolute;bottom:26px;z-index:3;border:4px solid #fff;border-radius:999px;background:#ffffffe0;color:#059669;padding:10px 18px;font-size:clamp(16px,1.8vw,24px);font-weight:1000;text-align:center}
+.endMsg,.endScore{margin:18px 0;font-size:clamp(24px,3.5vw,40px);color:#075985;font-weight:1000}
+@media(max-height:720px){.card{padding:12px}.panel{padding:10px}.main{height:58px}.taskCard{min-height:290px}.ans{height:82px}.phase{bottom:14px}.fb{font-size:22px}}
+@media(max-width:900px){.tableBtns{grid-template-columns:repeat(5,1fr)}.timeBtns{grid-template-columns:repeat(2,1fr)}.info{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-<section id="startScreen" class="start-screen">
-  <div class="start-card">
+<section id="start" class="start">
+  <div class="card">
     <div>
       <h1>🏓 Mathe-Pingpong 🏓</h1>
       <p class="subtitle">Setzt euch links und rechts ans Tablet wie an eine echte Tischtennisplatte!</p>
@@ -74,277 +67,370 @@ h1{margin:0;font-size:clamp(34px,5.5vw,68px);color:#ec4899;font-weight:1000;line
 
     <div class="panel">
       <h2>Welche Reihen wollt ihr üben?</h2>
-      <div id="tableButtons" class="table-buttons"></div>
+      <div id="tableBtns" class="tableBtns"></div>
     </div>
 
     <div class="panel yellow">
       <h2>Zeitmodus</h2>
-      <div class="time-buttons">
-        <button id="modeOff" class="mode-btn active">Ohne Zeitlimit</button>
-        <button id="mode5" class="mode-btn">5 Sekunden</button>
+      <div class="timeBtns">
+        <button class="mode active" data-time="0">Ohne Zeitlimit</button>
+        <button class="mode" data-time="5">5 Sekunden</button>
+        <button class="mode" data-time="10">10 Sekunden</button>
+        <button class="mode" data-time="15">15 Sekunden</button>
+        <button class="mode" data-time="20">20 Sekunden</button>
       </div>
     </div>
 
-    <div class="info-grid">
-      <div class="info-box">👦 Spieler links</div>
-      <div class="info-box">🏓 Tablet wie Tischtennisplatte hinlegen</div>
-      <div class="info-box">👧 Spieler rechts</div>
+    <div class="info">
+      <div>👦 Spieler links</div>
+      <div>🏓 Jeder bekommt gleich viele Bälle</div>
+      <div>👧 Spieler rechts</div>
     </div>
 
-    <button id="startButton" class="main-btn">SPIEL STARTEN</button>
+    <button id="startBtn" class="main">SPIEL STARTEN</button>
   </div>
 </section>
 
-<section id="gameScreen" class="game-screen hidden">
-  <main class="table">
-    <div class="player-side left">
-      <div id="scoreLeft" class="score">0</div>
-      <div id="cardLeft" class="task-card"></div>
-      <div id="feedbackLeft" class="feedback"></div>
+<section id="game" class="game hidden">
+  <main class="plate">
+    <div class="side left">
+      <div id="scoreL" class="score">0</div>
+      <div id="cardL" class="taskCard"></div>
+      <div id="fbL" class="fb"></div>
     </div>
 
     <div class="net">
       <div id="timer" class="timer hidden">⏰ 5</div>
-      <div class="net-line"></div>
-      <div class="net-content">
-        <div class="bounce">🏓</div>
-        <div class="ping-box">Ping! Pong!</div>
+      <div class="line"></div>
+      <div class="netbox">
+        <div class="ball">🏓</div>
+        <div id="netText" class="ping">Ping! Pong!</div>
       </div>
+      <div id="phase" class="phase hidden"></div>
     </div>
 
-    <div class="player-side right">
-      <div id="scoreRight" class="score">0</div>
-      <div id="cardRight" class="task-card"></div>
-      <div id="feedbackRight" class="feedback"></div>
+    <div class="side right">
+      <div id="scoreR" class="score">0</div>
+      <div id="cardR" class="taskCard"></div>
+      <div id="fbR" class="fb"></div>
     </div>
   </main>
 </section>
 
-<section id="endScreen" class="end-screen hidden">
-  <div class="end-card">
-    <div style="font-size:90px;">🏆</div>
-    <h2 id="winnerText">Spieler gewinnt!</h2>
-    <div id="finalScore" class="end-score"></div>
-    <button id="newRoundButton" class="main-btn">NEUE RUNDE</button>
+<section id="end" class="end hidden">
+  <div class="card">
+    <div style="font-size:90px">🏆</div>
+    <h1 id="winnerText">Spieler gewinnt!</h1>
+    <div id="endMsg" class="endMsg"></div>
+    <div id="endScore" class="endScore"></div>
+    <button id="newRound" class="main">NEUE RUNDE</button>
   </div>
 </section>
 
 <script>
-const TABLES=[2,3,4,5,6,7,8,9,10];
-const WIN_SCORE=10;
+const TABLES = [2,3,4,5,6,7,8,9,10];
+const WIN = 10;
 
-let selectedTables=[2,3,4,5,10];
-let timeMode="off";
-let activePlayer="left";
-let task=null;
-let score={left:0,right:0};
-let feedback={left:"",right:""};
-let timerInterval=null;
-let timeLeft=5;
-let roundResolved=false;
+let selected = [2,3,4,5,10];
+let timeLimit = 0;
+let timeLeft = 0;
+let timerInt = null;
 
-const startScreen=document.getElementById("startScreen");
-const gameScreen=document.getElementById("gameScreen");
-const endScreen=document.getElementById("endScreen");
-const tableButtons=document.getElementById("tableButtons");
-const modeOff=document.getElementById("modeOff");
-const mode5=document.getElementById("mode5");
-const startButton=document.getElementById("startButton");
-const newRoundButton=document.getElementById("newRoundButton");
-const scoreLeft=document.getElementById("scoreLeft");
-const scoreRight=document.getElementById("scoreRight");
-const cardLeft=document.getElementById("cardLeft");
-const cardRight=document.getElementById("cardRight");
-const feedbackLeft=document.getElementById("feedbackLeft");
-const feedbackRight=document.getElementById("feedbackRight");
-const timer=document.getElementById("timer");
-const winnerText=document.getElementById("winnerText");
-const finalScore=document.getElementById("finalScore");
+let active = "left";
+let task = null;
+let score = {left:0, right:0};
+let turns = {left:0, right:0};
+let feedback = {left:"", right:""};
+let resolved = false;
+let phase = "normal";
 
-function randomInt(min,max){return Math.floor(Math.random()*(max-min+1))+min}
-function shuffle(array){return [...array].sort(()=>Math.random()-0.5)}
+const $ = id => document.getElementById(id);
 
-function createTask(){
-  const a=selectedTables[randomInt(0,selectedTables.length-1)];
-  const b=randomInt(2,10);
-  const correct=a*b;
-  const wrong=new Set();
-  while(wrong.size<2){
-    const value=correct+randomInt(-10,10);
-    if(value!==correct && value>0) wrong.add(value);
+function randomInt(min,max){
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function shuffle(array){
+  return [...array].sort(() => Math.random() - 0.5);
+}
+
+function makeTask(){
+  const secondFactor = selected[randomInt(0, selected.length - 1)];
+  const firstFactor = randomInt(2, 10);
+  const correct = firstFactor * secondFactor;
+  const wrong = new Set();
+
+  while(wrong.size < 2){
+    const value = correct + randomInt(-10, 10);
+    if(value > 0 && value !== correct) wrong.add(value);
   }
-  return{question:`${a} · ${b}`,correct,answers:shuffle([correct,...wrong])};
+
+  return {
+    q: `${firstFactor} · ${secondFactor}`,
+    c: correct,
+    ans: shuffle([correct, ...wrong])
+  };
 }
 
-function showScreen(which){
-  startScreen.classList.toggle("hidden",which!=="start");
-  gameScreen.classList.toggle("hidden",which!=="game");
-  endScreen.classList.toggle("hidden",which!=="end");
+function show(screen){
+  $("start").classList.toggle("hidden", screen !== "start");
+  $("game").classList.toggle("hidden", screen !== "game");
+  $("end").classList.toggle("hidden", screen !== "end");
 }
 
-function renderTableButtons(){
-  tableButtons.innerHTML="";
-  TABLES.forEach(table=>{
-    const button=document.createElement("button");
-    button.className="select-btn"+(selectedTables.includes(table)?" active":"");
-    button.textContent=table+"·";
-    button.addEventListener("click",()=>{
-      if(selectedTables.includes(table)&&selectedTables.length>1){
-        selectedTables=selectedTables.filter(t=>t!==table);
-      }else if(!selectedTables.includes(table)){
-        selectedTables.push(table);
-        selectedTables.sort((a,b)=>a-b);
+function renderTables(){
+  const box = $("tableBtns");
+  box.innerHTML = "";
+
+  TABLES.forEach(table => {
+    const button = document.createElement("button");
+    button.className = "sel" + (selected.includes(table) ? " active" : "");
+    button.textContent = table + "·";
+    button.onclick = () => {
+      if(selected.includes(table) && selected.length > 1){
+        selected = selected.filter(x => x !== table);
+      } else if(!selected.includes(table)){
+        selected.push(table);
+        selected.sort((a,b) => a-b);
       }
-      renderTableButtons();
-    });
-    tableButtons.appendChild(button);
+      renderTables();
+    };
+    box.appendChild(button);
   });
 }
 
-function setMode(mode){
-  timeMode=mode;
-  modeOff.classList.toggle("active",mode==="off");
-  mode5.classList.toggle("active",mode==="5s");
+function renderTimeButtons(){
+  document.querySelectorAll(".mode").forEach(button => {
+    const value = Number(button.dataset.time);
+    button.classList.toggle("active", value === timeLimit);
+  });
 }
 
-function renderPlayerCard(side){
-  const active=activePlayer===side;
-  const card=side==="left"?cardLeft:cardRight;
-  card.className="task-card"+(active?" active":"");
+function renderCard(side){
+  const isActive = active === side;
+  const card = side === "left" ? $("cardL") : $("cardR");
+  card.className = "taskCard" + (isActive ? " active" : "");
 
-  if(active){
-    card.innerHTML=`
+  if(isActive){
+    card.innerHTML = `
       <div class="label">Tippe die richtige Antwort!</div>
-      <div class="task">${task.question}</div>
+      <div class="task">${task.q}</div>
       <div class="answers">
-        ${task.answers.map(answer=>`<button class="answer-btn" data-answer="${answer}">${answer}</button>`).join("")}
+        ${task.ans.map(answer => `<button class="ans" data-answer="${answer}">${answer}</button>`).join("")}
       </div>
     `;
-    card.querySelectorAll(".answer-btn").forEach(button=>{
-      button.addEventListener("click",()=>handleAnswer(Number(button.dataset.answer)));
+
+    card.querySelectorAll(".ans").forEach(button => {
+      button.onclick = () => answer(Number(button.dataset.answer));
     });
-  }else{
-    card.innerHTML=`
+  } else {
+    card.innerHTML = `
       <div class="label">Warte auf den Ball</div>
-      <div class="waiting">
-        <div>🏓</div>
-        <div class="waiting-text">Bereit machen!</div>
-      </div>
+      <div class="wait"><div>🏓</div><span>Bereit machen!</span></div>
     `;
   }
 }
 
-function renderGame(){
-  scoreLeft.textContent=score.left;
-  scoreRight.textContent=score.right;
-  feedbackLeft.textContent=feedback.left||"";
-  feedbackRight.textContent=feedback.right||"";
-  renderPlayerCard("left");
-  renderPlayerCard("right");
-  timer.classList.toggle("hidden",timeMode!=="5s");
-  timer.textContent=`⏰ ${timeLeft}`;
+function renderPhase(){
+  if(phase === "sudden"){
+    $("netText").textContent = "Fehler entscheidet!";
+    $("phase").textContent = "Gleichstand: Wer jetzt einen Fehler macht, verliert.";
+    $("phase").classList.remove("hidden");
+  } else if(phase === "final"){
+    $("netText").textContent = "Letzter Ball!";
+    $("phase").textContent = "Der Gegenspieler bekommt noch einen fairen letzten Ball.";
+    $("phase").classList.remove("hidden");
+  } else {
+    $("netText").textContent = "Ping! Pong!";
+    $("phase").classList.add("hidden");
+  }
+}
+
+function render(){
+  $("scoreL").textContent = score.left;
+  $("scoreR").textContent = score.right;
+  $("fbL").textContent = feedback.left || "";
+  $("fbR").textContent = feedback.right || "";
+
+  renderCard("left");
+  renderCard("right");
+
+  $("timer").classList.toggle("hidden", timeLimit === 0);
+  $("timer").textContent = `⏰ ${timeLeft}`;
+
+  renderPhase();
 }
 
 function startTimer(){
-  clearInterval(timerInterval);
-  if(timeMode!=="5s"){
-    timer.classList.add("hidden");
+  clearInterval(timerInt);
+
+  if(timeLimit === 0){
+    timeLeft = 0;
+    render();
     return;
   }
-  timeLeft=5;
-  timer.textContent=`⏰ ${timeLeft}`;
-  timer.classList.remove("hidden");
 
-  timerInterval=setInterval(()=>{
-    if(roundResolved)return;
-    timeLeft-=1;
-    timer.textContent=`⏰ ${timeLeft}`;
-    if(timeLeft<=0){
-      resolveRound(false,true);
+  timeLeft = timeLimit;
+  render();
+
+  timerInt = setInterval(() => {
+    if(resolved) return;
+
+    timeLeft -= 1;
+    render();
+
+    if(timeLeft <= 0){
+      resolve(false, true);
     }
-  },1000);
+  }, 1000);
 }
 
 function startGame(){
-  score={left:0,right:0};
-  feedback={left:"Los geht's!",right:""};
-  activePlayer=Math.random()>0.5?"left":"right";
-  task=createTask();
-  roundResolved=false;
-  timeLeft=5;
-  showScreen("game");
-  renderGame();
+  score = {left:0, right:0};
+  turns = {left:0, right:0};
+  feedback = {left:"Los geht's!", right:""};
+  phase = "normal";
+  resolved = false;
+  active = Math.random() > 0.5 ? "left" : "right";
+  task = makeTask();
+  timeLeft = timeLimit;
+  show("game");
+  render();
   startTimer();
 }
 
-function goToStart(){
-  clearInterval(timerInterval);
-  feedback={left:"",right:""};
-  roundResolved=false;
-  timeLeft=5;
-  showScreen("start");
-  renderTableButtons();
-  setMode(timeMode);
+function toStart(){
+  clearInterval(timerInt);
+  feedback = {left:"", right:""};
+  phase = "normal";
+  resolved = false;
+  timeLeft = timeLimit;
+  show("start");
+  renderTables();
+  renderTimeButtons();
 }
 
-function nextTurn(other,delay){
-  setTimeout(()=>{
-    activePlayer=other;
-    task=createTask();
-    roundResolved=false;
-    renderGame();
+function finish(winner, message){
+  clearInterval(timerInt);
+  $("winnerText").textContent = `Spieler ${winner === "left" ? "links" : "rechts"} gewinnt!`;
+  $("endMsg").textContent = message;
+  $("endScore").textContent = `Links ${score.left} : ${score.right} Rechts`;
+  show("end");
+}
+
+function checkEnd(updatedScore, updatedTurns, player, other, wasCorrect){
+  const equalTurns = updatedTurns.left === updatedTurns.right;
+  const reachedTarget = updatedScore.left >= WIN || updatedScore.right >= WIN;
+
+  if(phase === "sudden"){
+    if(!wasCorrect){
+      finish(other, `Spieler ${other === "left" ? "links" : "rechts"} gewinnt, weil der Gegner einen Fehler gemacht hat!`);
+      return true;
+    }
+
+    feedback[player] = "🏓 Richtig! Weiter geht's!";
+    feedback[other] = "Fehler entscheidet!";
+    return false;
+  }
+
+  if(reachedTarget && equalTurns){
+    if(updatedScore.left > updatedScore.right){
+      finish("left", "Klarer Sieg für Spieler links! 🎉");
+      return true;
+    }
+
+    if(updatedScore.right > updatedScore.left){
+      finish("right", "Klarer Sieg für Spieler rechts! 🎉");
+      return true;
+    }
+
+    phase = "sudden";
+    feedback = {
+      left: "Gleichstand! Fehler entscheidet!",
+      right: "Gleichstand! Fehler entscheidet!"
+    };
+    return false;
+  }
+
+  if(reachedTarget && !equalTurns){
+    phase = "final";
+    feedback[player] = "10 Punkte! Der Gegner bekommt noch einen letzten Ball.";
+    feedback[other] = "Letzter Ball zum Ausgleich!";
+    return false;
+  }
+
+  return false;
+}
+
+function nextTurn(other, delay){
+  setTimeout(() => {
+    active = other;
+    task = makeTask();
+    resolved = false;
+    render();
     startTimer();
-  },delay);
+  }, delay);
 }
 
-function endGame(){
-  clearInterval(timerInterval);
-  const winner=score.left>=WIN_SCORE?"links":"rechts";
-  winnerText.textContent=`Spieler ${winner} gewinnt!`;
-  finalScore.textContent=`Links ${score.left} : ${score.right} Rechts`;
-  showScreen("end");
-}
+function resolve(correct, timeout = false){
+  if(resolved) return;
+  resolved = true;
+  clearInterval(timerInt);
 
-function resolveRound(correctAnswer,timeout=false){
-  if(roundResolved)return;
-  roundResolved=true;
-  clearInterval(timerInterval);
+  const player = active;
+  const other = player === "left" ? "right" : "left";
 
-  const player=activePlayer;
-  const other=player==="left"?"right":"left";
+  const updatedTurns = {...turns, [player]: turns[player] + 1};
+  const updatedScore = {...score};
 
-  if(correctAnswer){
-    score[player]+=1;
-    feedback[player]="🏓 Super!";
-    feedback[other]="Der Ball kommt!";
-  }else{
-    score[other]+=1;
-    feedback[player]=timeout?"⏰ Zu langsam!":`❌ ${task.correct} wäre richtig!`;
-    feedback[other]="🎉 Punkt für dich!";
+  if(phase === "sudden"){
+    if(!correct) updatedScore[other] += 1;
+  } else if(correct){
+    updatedScore[player] += 1;
+  } else {
+    updatedScore[other] += 1;
   }
 
-  renderGame();
+  turns = updatedTurns;
+  score = updatedScore;
 
-  if(score.left>=WIN_SCORE || score.right>=WIN_SCORE){
-    setTimeout(endGame,500);
-    return;
+  if(phase !== "sudden"){
+    if(correct){
+      feedback[player] = "🏓 Super!";
+      feedback[other] = "Der Ball kommt!";
+    } else {
+      feedback[player] = timeout ? "⏰ Zu langsam!" : `❌ ${task.c} wäre richtig!`;
+      feedback[other] = "🎉 Punkt für dich!";
+    }
   }
 
-  nextTurn(other,correctAnswer?400:700);
+  render();
+
+  const ended = checkEnd(updatedScore, updatedTurns, player, other, correct);
+  render();
+
+  if(ended) return;
+
+  nextTurn(other, correct ? 450 : 750);
 }
 
-function handleAnswer(answer){
-  resolveRound(answer===task.correct,false);
+function answer(value){
+  resolve(value === task.c, false);
 }
 
-modeOff.addEventListener("click",()=>setMode("off"));
-mode5.addEventListener("click",()=>setMode("5s"));
-startButton.addEventListener("click",startGame);
-newRoundButton.addEventListener("click",goToStart);
+document.querySelectorAll(".mode").forEach(button => {
+  button.onclick = () => {
+    timeLimit = Number(button.dataset.time);
+    renderTimeButtons();
+  };
+});
 
-renderTableButtons();
-setMode("off");
-showScreen("start");
+$("startBtn").onclick = startGame;
+$("newRound").onclick = toStart;
+
+renderTables();
+renderTimeButtons();
+show("start");
 </script>
 </body>
 </html>
